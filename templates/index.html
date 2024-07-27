@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AstroPico control panel</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h1>AstroPi</h1>
+<form action="/" method="get">
+    <button name="control" value="on">ENABLE</button>
+    <button class="buttonRed" name="control" value="off">DISABLE</button>
+    <button name="command" value="sidereal1x">SIDEREAL 1x</button>
+    <button name="command" value="sidereal2x">SIDEREAL 2x</button>
+    <button name="command" value="sidereal5x">SIDEREAL 5x</button>
+    <button name="command" value="sidereal50x">SIDEREAL 50x</button>
+    <button name="command" value="sidereal100x">SIDEREAL 100x</button>
+    <button name="command" value="increment">+0.1x</button>
+    <button name="command" value="decrement">-0.1x</button>
+</form>
+<p>Current status:</p>
+<p class="status">{{ status }}</p>
+</body>
+</html>
