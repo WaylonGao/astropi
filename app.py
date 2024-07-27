@@ -1,35 +1,54 @@
 from flask import Flask, request, render_template
 import RPi.GPIO as GPIO
+from threading import Thread
+run = True
+m0=1
+m1=1
+m2=1
+currentSpeed = 1.0
+def MotorThread():
+    global run
+
+
 
 app = Flask(__name__)
 
+
+
 # Define subroutines
 def enable_control():
-    return "control enabcontrol"
+    return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
-    return "control disabcontrol"
+    return f"DISABLED"
 
 def sidereal_1x():
-    return "Sidereal 1x activated"
+    currentSpeed = 1.0
+    return "Running at {currentSpeed}x sidereal"
 
 def sidereal_2x():
-    return "Sidereal 2x activated"
+    currentSpeed = 2.0
+    return "Running at {currentSpeed}x sidereal"
 
 def sidereal_5x():
-    return "Sidereal 5x activated"
+    currentSpeed = 5.0
+    return "Running at {currentSpeed}x sidereal"
 
 def sidereal_50x():
-    return "Sidereal 50x activated"
+    currentSpeed = 50.0
+    return "Running at {currentSpeed}x sidereal"
 
 def sidereal_100x():
-    return "Sidereal 100x activated"
+    currentSpeed = 100.0
+    return f"Running at {currentSpeed}x sidereal"
 
 def increment_speed():
-    return "Speed incremented by 0.1x"
+    currentSpeed *= 1.1
+    return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
-    return "Speed decremented by 0.1x"
+    currentSpeed *= 0.9
+    return f"Running at {currentSpeed}x sidereal"
 
 # Define routes
 @app.route('/', methods=['GET'])
