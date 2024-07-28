@@ -3,7 +3,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #ff0000bd;
+    background-color: #ff00006c;
 }
 h1 {
     color: #333;
@@ -11,7 +11,7 @@ h1 {
 form {
     margin: 20px auto;
     padding: 20px;
-    background: #ff0000bd;
+    background: #681e1e65;
     border-radius: 8px;
     border-color: #ff5100;
     
