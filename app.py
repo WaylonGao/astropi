@@ -11,6 +11,35 @@ m2=1
 currentSpeed = Decimal(1.000) #Speed multiplier
 
 
+resetPin = 0
+sleepPin = 1
+stepPin = 2
+enablePin = 3
+dirPin = 4
+m0Pin = 5
+m1Pin = 6
+m2Pin = 7
+
+class MotDriver:
+    def __init__(self, resetPin, sleepPin, stepPin, enablePin, dirPin, m0Pin, m1Pin, m2Pin):
+        self.resetPin = resetPin
+        self.sleepPin = sleepPin
+        self.stepPin = stepPin
+        self.enablePin = enablePin
+        self.dirPin = dirPin
+        self.m0Pin = m0Pin
+        self.m1Pin = m1Pin
+        self.m2Pin = m2Pin
+
+RA = MotDriver(21,20,26,19,16,13,6,12)
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(26, GPIO.OUT) #STEP PIN
+GPIO.setup(26, GPIO.OUT) #ENABLE PIN
+
+def step():
+    GPIO.output(0, GPIO.HIGH)
+
 
 def MotorThread():
     global run, currentSpeed
@@ -18,7 +47,7 @@ def MotorThread():
     while True:
         if run:
             T = 1 / (currentSpeed * siderealConst)
-            
+
         
 
 
