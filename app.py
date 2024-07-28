@@ -17,36 +17,44 @@ app = Flask(__name__)
 
 # Define subroutines
 def enable_control():
+    global currentSpeed
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
     return f"DISABLED"
 
 def sidereal_1x():
+    global currentSpeed
     currentSpeed = 1.0
     return "Running at {currentSpeed}x sidereal"
 
 def sidereal_2x():
+    global currentSpeed
     currentSpeed = 2.0
     return "Running at {currentSpeed}x sidereal"
 
 def sidereal_5x():
+    global currentSpeed
     currentSpeed = 5.0
     return "Running at {currentSpeed}x sidereal"
 
 def sidereal_50x():
+    global currentSpeed
     currentSpeed = 50.0
     return "Running at {currentSpeed}x sidereal"
 
 def sidereal_100x():
+    global currentSpeed
     currentSpeed = 100.0
     return f"Running at {currentSpeed}x sidereal"
 
 def increment_speed():
+    global currentSpeed
     currentSpeed *= 1.1
     return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
+    global currentSpeed
     currentSpeed *= 0.9
     return f"Running at {currentSpeed}x sidereal"
 
