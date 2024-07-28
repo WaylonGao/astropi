@@ -4,12 +4,19 @@ from threading import Thread
 from decimal import Decimal
 
 run = True
+siderealConst = 100 #Constant for LXD75 RA
 m0=1
 m1=1
 m2=1
-currentSpeed = Decimal(1.000)
+currentSpeed = Decimal(1.000) #Speed multiplier
+
+
+
 def MotorThread():
-    global run
+    global run, currentSpeed
+    if run:
+        T = 1 / (currentSpeed * siderealConst)
+
 
 
 
