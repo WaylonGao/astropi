@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AstroPico control panel</title>
+    <title class="darkBgText">AstroPico control panel</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -33,7 +33,7 @@
     <button name="command" value="decrement">-0.1x</button>
 </form>
 
-<p>Current status:</p>
+<p class="darkBgText">Current status:</p>
 <p class="status">{{ status }}</p>
 </body>
 </html>
