@@ -1,11 +1,13 @@
 from flask import Flask, request, render_template
 import RPi.GPIO as GPIO
 from threading import Thread
+from decimal import Decimal
+
 run = True
 m0=1
 m1=1
 m2=1
-currentSpeed = 1
+currentSpeed = Decimal(1.000)
 def MotorThread():
     global run
 
@@ -57,7 +59,7 @@ def sidereal_100x():
 def increment_speed():
     global currentSpeed
     currentSpeed += 0.1
-    currentSpeed = format(str(currentSpeed), '.3f')
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
