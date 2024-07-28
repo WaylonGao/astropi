@@ -26,22 +26,22 @@ def disable_control():
 def sidereal_1x():
     global currentSpeed
     currentSpeed = 1.0
-    return "Running at {currentSpeed}x sidereal"
+    return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_2x():
     global currentSpeed
     currentSpeed = 2.0
-    return "Running at {currentSpeed}x sidereal"
+    return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_5x():
     global currentSpeed
     currentSpeed = 5.0
-    return "Running at {currentSpeed}x sidereal"
+    return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_50x():
     global currentSpeed
     currentSpeed = 50.0
-    return "Running at {currentSpeed}x sidereal"
+    return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_100x():
     global currentSpeed
@@ -50,12 +50,12 @@ def sidereal_100x():
 
 def increment_speed():
     global currentSpeed
-    currentSpeed *= 1.1
+    currentSpeed += 0.1
     return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
     global currentSpeed
-    currentSpeed *= 0.9
+    currentSpeed -= 0.1
     return f"Running at {currentSpeed}x sidereal"
 
 # Define routes
