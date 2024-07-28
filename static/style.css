@@ -3,7 +3,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #ff00006c;
+    /*background-color: #ff00006c;*/
+    background-image: url(background.jpeg);
 }
 h1 {
     color: #333;

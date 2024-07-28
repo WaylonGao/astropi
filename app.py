@@ -14,8 +14,12 @@ currentSpeed = Decimal(1.000) #Speed multiplier
 
 def MotorThread():
     global run, currentSpeed
-    if run:
-        T = 1 / (currentSpeed * siderealConst)
+
+    while True:
+        if run:
+            T = 1 / (currentSpeed * siderealConst)
+            
+        
 
 
 
