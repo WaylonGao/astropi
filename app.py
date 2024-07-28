@@ -5,7 +5,7 @@ run = True
 m0=1
 m1=1
 m2=1
-currentSpeed = 1.0
+currentSpeed = 1
 def MotorThread():
     global run
 
@@ -25,27 +25,27 @@ def disable_control():
 
 def sidereal_1x():
     global currentSpeed
-    currentSpeed = 1.0
+    currentSpeed = 1
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_2x():
     global currentSpeed
-    currentSpeed = 2.0
+    currentSpeed = 2
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_5x():
     global currentSpeed
-    currentSpeed = 5.0
+    currentSpeed = 5
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_50x():
     global currentSpeed
-    currentSpeed = 50.0
+    currentSpeed = 50
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_100x():
     global currentSpeed
-    currentSpeed = 100.0
+    currentSpeed = 100
     return f"Running at {currentSpeed}x sidereal"
 
 def increment_speed():
