@@ -8,9 +8,9 @@ body {
     background-image: url(background.jpeg);
     background-size: cover;
 }
-h1 {
+/*h1 {
     color: #333;
-}
+}*/
 darkBgText{
     font-family: Arial, sans-serif;
     text-align: center;
