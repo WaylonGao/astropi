@@ -18,6 +18,7 @@ app = Flask(__name__)
 # Define subroutines
 def enable_control():
     global currentSpeed
+    currentSpeed = format(currentSpeed, '.3f')
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
@@ -26,6 +27,7 @@ def disable_control():
 def sidereal_1x():
     global currentSpeed
     currentSpeed = 1
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_2x():
@@ -37,26 +39,31 @@ def sidereal_2x():
 def sidereal_5x():
     global currentSpeed
     currentSpeed = 5
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_50x():
     global currentSpeed
     currentSpeed = 50
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_100x():
     global currentSpeed
     currentSpeed = 100
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def increment_speed():
     global currentSpeed
     currentSpeed += 0.1
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
     global currentSpeed
     currentSpeed -= 0.1
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 # Define routes
