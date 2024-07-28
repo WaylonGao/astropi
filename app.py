@@ -32,6 +32,7 @@ class MotDriver:
         self.m2Pin = m2Pin
 
 RA = MotDriver(21,20,26,19,16,13,6,12)
+LD = MotDriver(1,2,3,4,5,6,7,8)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(26, GPIO.OUT) #STEP PIN
