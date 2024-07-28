@@ -31,6 +31,7 @@ def sidereal_1x():
 def sidereal_2x():
     global currentSpeed
     currentSpeed = 2
+    currentSpeed = format(currentSpeed, '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def sidereal_5x():
