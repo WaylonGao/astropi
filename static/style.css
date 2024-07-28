@@ -11,8 +11,10 @@ h1 {
 form {
     margin: 20px auto;
     padding: 20px;
-    background: #fff;
+    background: #ff0000bd;
     border-radius: 8px;
+    border-color: #ff5100;
+    
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     display: inline-block;
 }
