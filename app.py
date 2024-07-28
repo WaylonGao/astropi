@@ -57,13 +57,13 @@ def sidereal_100x():
 def increment_speed():
     global currentSpeed
     currentSpeed += 0.1
-    currentSpeed = format(currentSpeed, '.3f')
+    currentSpeed = format(str(currentSpeed), '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 def decrement_speed():
     global currentSpeed
     currentSpeed -= 0.1
-    currentSpeed = format(currentSpeed, '.3f')
+    currentSpeed = format(str(currentSpeed), '.3f')
     return f"Running at {currentSpeed}x sidereal"
 
 # Define routes
