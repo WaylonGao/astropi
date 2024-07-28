@@ -51,9 +51,6 @@ def MotorThread():
 
         
 
-
-
-
 app = Flask(__name__)
 
 
