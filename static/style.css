@@ -14,7 +14,9 @@ body {
 titleText{
     font-family: Arial, sans-serif;
     text-align: center;
-    color: #f0f0f0
+    color: #f0f0f0;
+    border-radius: 8px;
+    border: #747474;
 }
 form {
     margin: 20px auto;
