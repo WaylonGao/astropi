@@ -19,10 +19,6 @@ darkBgText{
 form {
     margin: 20px auto;
     padding: 20px;
-    background: #ff0000a4;
-    
-    
-    
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     display: inline-block;
 }
