@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    
+    color: #ffffff;
     margin: 0;
     padding: 0;
     /*background-color: #ff00006c;*/
@@ -11,7 +11,7 @@ body {
 /*h1 {
     color: #333;
 }*/
-darkBgText{
+titleText{
     font-family: Arial, sans-serif;
     text-align: center;
     color: #f0f0f0
