@@ -21,6 +21,7 @@ titleText{
 }
 
 axisTitle{
+    position: center;
     border: #747474;
     border-radius: 8px;
 }
