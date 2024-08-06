@@ -10,21 +10,28 @@ body {
     border-radius: 8px;
     border: #747474;
 }
-/*h1 {
-    color: #333;
-}*/
-titleText{
+
+.titleText {
     font-family: Arial, sans-serif;
     text-align: center;
     color: #f0f0f0;
-    
-}
-
-axisTitle{
-    position: center;
-    border: #747474;
+    border: 1px solid grey;
+    display: inline-block;
+    padding: 10px;
+    margin-top: 20px;
     border-radius: 8px;
 }
+
+.axisTitle {
+    color: #f0f0f0;
+    border: 1px solid grey;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 form {
     margin: 20px auto;
     padding: 20px;
@@ -49,18 +56,20 @@ button {
 
 button:hover {
     background-color: #45a049; /* Darker green */
-    
 }
+
 .buttonRed {
     background-color: #f44336; /* Red */
 }
+
 .buttonRed:hover {
     background-color: #c62828; /* Darker red */
 }
+
 .status {
     margin: 20px;
     font-size: 18px;
     font-family: Arial, sans-serif;
     text-align: center;
-    color: #cacaca
+    color: #cacaca;
 }
