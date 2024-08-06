@@ -34,12 +34,28 @@ class MotDriver:
 RA = MotDriver(21,20,26,19,16,13,6,12)
 LD = MotDriver(1,2,3,4,5,6,7,8)
 
+drivers = [RA,LD]
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(26, GPIO.OUT) #STEP PIN
-GPIO.setup(26, GPIO.OUT) #ENABLE PIN
+#GPIO.setup(26, GPIO.OUT) #STEP PIN
+#GPIO.setup(26, GPIO.OUT) #ENABLE PIN
+
+for d in drivers:
+    GPIO.setup(d.resetPin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+    
 
 def step():
-    GPIO.output(0, GPIO.HIGH)
+
+    pass
+
+
 
 
 def MotorThread():
