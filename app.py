@@ -31,8 +31,8 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
 
-RA = MotDriver(21,20,26,19,16,13,6,12)
-LD = MotDriver(1,2,3,4,5,6,7,8)
+RA = MotDriver(14,27,17,23,4,22,18,15)
+LD = MotDriver(12,25,1,21,7,20,16,9)
 
 drivers = [RA,LD]
 
