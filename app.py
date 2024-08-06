@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 import RPi.GPIO as GPIO
 from threading import Thread
 from decimal import Decimal
-
+import time
 run = True
 siderealConst = 100 #Constant for LXD75 RA
 m0=1
@@ -51,9 +51,11 @@ for d in drivers:
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
     
 
-def step():
-
-    pass
+def step(motor, period):
+    GPIO.output(motor.stepPin, True)
+    time.sleep(period / 2)
+    GPIO.output(motor.stepPin, False)
+    time.sleep(period / 2)
 
 
 
@@ -150,4 +152,12 @@ def index():
     return render_template('index.html', status=status)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    pass
+
+
+
+while True:
+    step(RA, 0.01)
+
+
