@@ -159,6 +159,6 @@ if __name__ == '__main__':
 
 while True:
     print("stepped")
-    step(RA, 1)
+    step(RA, 0.01)
 
 
