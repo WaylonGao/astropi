@@ -174,4 +174,5 @@ def stepperThread():
 Thread(target=stepperThread,name="stepperThread").start()
 print("stepperThread started")
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
