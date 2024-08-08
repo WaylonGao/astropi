@@ -67,10 +67,12 @@ def step1(motor, period):
     time.sleep(period / 2)
 
 def step(motor, period):
+    print("STEP")
     print(f"{motor.stepPin}, HIGH")
     time.sleep(period/2)
     print(f"{motor.stepPin}, HIGH")
     time.sleep(period/2)
+    print("STEPEND")
 
 
 def MotorThread():
