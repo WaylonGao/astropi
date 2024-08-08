@@ -8,6 +8,8 @@ GPIO.setwarnings(False)
 
 print("PROGRAM STARTED")
 
+def delay(t):
+    time.sleep(t)
 
 
 run = True
@@ -69,9 +71,9 @@ def step1(motor, period):
 def step(motor, period):
     print("STEP")
     print(f"{motor.stepPin}, HIGH")
-    time.sleep(period/2)
+    delay(period/2)
     print(f"{motor.stepPin}, HIGH")
-    time.sleep(period/2)
+    delay(period/2)
     print("STEPEND")
 
 
@@ -164,8 +166,7 @@ def stepperThread():
     global masterPeriod, currentSpeed
     while True:
         print("A")
-        time.sleep(1)
-        #step(RA, masterPeriod*currentSpeed)
+        step(RA, masterPeriod*currentSpeed)
 
 
 Thread(target=stepperThread,name="stepperThread").start()
