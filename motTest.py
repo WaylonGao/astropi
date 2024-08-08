@@ -40,7 +40,7 @@ GPIO.setmode(GPIO.BCM)
 
 for d in drivers:
     GPIO.setup(d.resetPin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
