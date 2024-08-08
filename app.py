@@ -173,7 +173,7 @@ def stepperThread():
         step(RA, masterPeriod*currentSpeed)
 
 
-Thread(target=stepperThread,name="flashLights").start()
+Thread(target=stepperThread,name="stepperThread").start()
 print("stepperThread started")
 
 if __name__ == '__main__':
