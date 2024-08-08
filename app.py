@@ -9,7 +9,7 @@ GPIO.setwarnings(False)
 print("PROGRAM STARTED")
 
 def delay(t):
-    time.sleep(t)
+    time.sleep(float(t))
 
 
 run = True
