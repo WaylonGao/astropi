@@ -68,6 +68,8 @@ def step1(motor, period):
     GPIO.output(motor.stepPin, False)
     time.sleep(period / 2)
 
+
+print(RA.stepPin)
 def step(motor, period):
     print("STEP")
     print(f"{motor.stepPin}, HIGH")
