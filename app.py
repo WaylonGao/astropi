@@ -3,12 +3,21 @@ import RPi.GPIO as GPIO
 from threading import Thread
 from decimal import Decimal
 import time
+
+
+
+print("PROGRAM STARTED")
+
+
+
 run = True
 siderealConst = 100 #Constant for LXD75 RA
 m0=1
 m1=1
 m2=1
 currentSpeed = Decimal(1.000) #Speed multiplier
+
+masterPeriod=1
 
 
 resetPin = 0
@@ -51,12 +60,17 @@ for d in drivers:
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
     
 
-def step(motor, period):
+def step1(motor, period):
     GPIO.output(motor.stepPin, True)
     time.sleep(period / 2)
     GPIO.output(motor.stepPin, False)
     time.sleep(period / 2)
 
+def step(motor, period):
+    print(f"{motor.stepPin}, HIGH")
+    time.sleep(period/2)
+    print(f"{motor.stepPin}, HIGH")
+    time.sleep(period/2)
 
 
 
@@ -151,14 +165,19 @@ def index():
     
     return render_template('index.html', status=status)
 
+
+
+def stepperThread():
+    global masterPeriod, currentSpeed
+    while True:
+        step(RA, masterPeriod*currentSpeed)
+
+
+Thread(target=stepperThread,name="flashLights").start()
+print("stepperThread started")
+
 if __name__ == '__main__':
-    #app.run(debug=True)
+    app.run(debug=True)
     pass
-
-
-
-while True:
-    print("stepped")
-    step(RA, 0.01)
 
 
