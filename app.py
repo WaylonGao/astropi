@@ -4,7 +4,7 @@ from threading import Thread
 from decimal import Decimal
 import time
 
-
+GPIO.setwarnings(False)
 
 print("PROGRAM STARTED")
 
@@ -75,12 +75,6 @@ def step(motor, period):
     print("STEPEND")
 
 
-def MotorThread():
-    global run, currentSpeed
-
-    while True:
-        if run:
-            T = 1 / (currentSpeed * siderealConst)
         
 
 app = Flask(__name__)
@@ -172,13 +166,8 @@ def stepperThread():
         print("A")
         step(RA, masterPeriod*currentSpeed)
 
-def testThread():
-    global currentSpeed
-    while True:
-        print(currentSpeed)
-        time.sleep(1)
 
-Thread(target=testThread,name="testThread").start()
+Thread(target=stepperThread,name="stepperThread").start()
 print("stepperThread started")
 
 if __name__ == '__main__':
