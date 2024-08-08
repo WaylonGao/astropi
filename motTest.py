@@ -37,17 +37,22 @@ drivers = [RA,LD]
 
 GPIO.setmode(GPIO.BCM)
 
+ax = RA
+"""
+GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
+GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.LOW)
+"""
+GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
 
-for d in drivers:
-    GPIO.setup(d.resetPin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.LOW)
-    
 
 def step(motor, period):
     print(f"Stepped period {period}")
