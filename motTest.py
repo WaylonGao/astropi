@@ -58,4 +58,4 @@ def step(motor, period):
 
 
 while True:
-    step(LD, 1/32)
+    step(RA, 1/32)
