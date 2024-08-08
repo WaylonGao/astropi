@@ -172,8 +172,13 @@ def stepperThread():
         print("A")
         step(RA, masterPeriod*currentSpeed)
 
+def testThread():
+    global currentSpeed
+    while True:
+        print(currentSpeed)
+        time.sleep(1)
 
-Thread(target=stepperThread,name="stepperThread").start()
+Thread(target=testThread,name="testThread").start()
 print("stepperThread started")
 
 if __name__ == '__main__':
