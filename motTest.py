@@ -44,9 +44,9 @@ for d in drivers:
     GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.LOW)
     
 
 def step(motor, period):
@@ -58,4 +58,4 @@ def step(motor, period):
 
 
 while True:
-    step(RA, 1/32)
+    step(RA, 1)
