@@ -52,10 +52,12 @@ input("HIGH resetpin")
 GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 print("resetPin set to HIGH")
 
-
+input("LOW enablePin")
+GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
+print("LOW enablePin")
 
 input("HIGH sleepPin")
-GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.LOW) #HIGH TO ENABLE
+GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 print("sleepPin set to HIGH")
 
 GPIO.setup(ax.stepPin, GPIO.OUT)
