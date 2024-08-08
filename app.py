@@ -73,18 +73,15 @@ def step(motor, period):
     time.sleep(period/2)
 
 
-
 def MotorThread():
     global run, currentSpeed
 
     while True:
         if run:
             T = 1 / (currentSpeed * siderealConst)
-
         
 
 app = Flask(__name__)
-
 
 
 # Define subroutines
@@ -170,6 +167,7 @@ def index():
 def stepperThread():
     global masterPeriod, currentSpeed
     while True:
+        print("A")
         step(RA, masterPeriod*currentSpeed)
 
 
