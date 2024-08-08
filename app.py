@@ -62,22 +62,12 @@ for d in drivers:
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
     
 
-def step1(motor, period):
-    GPIO.output(motor.stepPin, True)
-    time.sleep(period / 2)
-    GPIO.output(motor.stepPin, False)
-    time.sleep(period / 2)
-
-
-print(RA.stepPin)
 def step(motor, period):
-    print("STEP")
-    print(motor.stepPin)
-    delay(period/2)
-    print(motor.stepPin)
-    delay(period/2)
-    print("STEPEND")
-
+    print(f"Stepped period {period}")
+    GPIO.output(motor.stepPin, True)
+    delay(period / 2)
+    GPIO.output(motor.stepPin, False)
+    delay(period / 2)
 
         
 
