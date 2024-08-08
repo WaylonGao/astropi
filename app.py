@@ -72,9 +72,9 @@ def step1(motor, period):
 print(RA.stepPin)
 def step(motor, period):
     print("STEP")
-    print(f"{motor.stepPin}, HIGH")
+    print(motor.stepPin)
     delay(period/2)
-    print(f"{motor.stepPin}, HIGH")
+    print(motor.stepPin)
     delay(period/2)
     print("STEPEND")
 
