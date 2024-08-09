@@ -49,23 +49,27 @@ GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.LOW)
 """
 input("HIGH resetpin")
+print(ax.resetPin)
 GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 print("resetPin set to HIGH")
 
 input("LOW enablePin")
+print(ax.enablePin)
 GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
 print("LOW enablePin")
 
 input("HIGH sleepPin")
+print(ax.sleepPin)
 GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 print("sleepPin set to HIGH")
 
 GPIO.setup(ax.stepPin, GPIO.OUT)
+
 print("stepPin setup")
 
 
 input("HIGH dirPin")
-
+print(ax.dirPin)
 GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
 print("dirPin setup HIGH")
 
