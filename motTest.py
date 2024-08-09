@@ -70,7 +70,7 @@ print("stepPin setup")
 
 input("HIGH dirPin")
 print(ax.dirPin)
-GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.HIGH)
 print("dirPin setup HIGH")
 
 
