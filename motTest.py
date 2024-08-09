@@ -37,7 +37,7 @@ drivers = [RA,LD]
 
 GPIO.setmode(GPIO.BCM)
 
-ax = RA
+ax = LD
 """
 GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
