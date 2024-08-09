@@ -14,7 +14,8 @@ def test(pin):
     
 while True:
     a = int(input("enter test pin:"))
-    if a > 100:
+    if a > 41:
+        g.cleanup()
         print("EXITING")
         break
     else:
