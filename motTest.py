@@ -73,9 +73,9 @@ print("dirPin setup HIGH")
 
 def step(motor, period):
     print(f"Stepped period {period}")
-    GPIO.output(motor.stepPin, True)
+    GPIO.output(motor.stepPin, GPIO.HIGH)
     delay(period / 2)
-    GPIO.output(motor.stepPin, False)
+    GPIO.output(motor.stepPin, GPIO.LOW)
     delay(period / 2)
 
 for i in range(100):
