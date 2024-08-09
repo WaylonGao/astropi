@@ -78,7 +78,7 @@ def step(motor, period):
     GPIO.output(motor.stepPin, False)
     delay(period / 2)
 
-while True:
+for i in range(100):
     step(RA, 1/4)
 print("done")
 
