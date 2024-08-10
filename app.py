@@ -158,7 +158,7 @@ def index():
 def stepperThread():
     global masterPeriod, currentSpeed
     while True:
-        step(RA, 0.0001 / float(currentSpeed))
+        step(RA, 0.01 / float(currentSpeed))
 
 
 Thread(target=stepperThread,name="stepperThread").start()
