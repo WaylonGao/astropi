@@ -43,28 +43,26 @@ drivers = [RA,LD]
 
 GPIO.setmode(GPIO.BCM)
 
-ax = LD
-
-GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.HIGH)
-GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
-GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
-
-ax = RA
+GPIO.setup(LD.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(LD.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(LD.stepPin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(LD.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
+GPIO.setup(LD.dirPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(LD.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(LD.m1Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(LD.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
 
-GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.HIGH)
-GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
-GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+
+
+GPIO.setup(RA.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(RA.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(RA.stepPin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(RA.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
+GPIO.setup(RA.dirPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(RA.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(RA.m1Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(RA.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
 input("start:")
 
