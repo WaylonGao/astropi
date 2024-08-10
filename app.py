@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 import RPi.GPIO as GPIO
-from threading import Thread
+from threading import Thread, Event
 from decimal import Decimal
 import time
 
@@ -11,14 +11,11 @@ print("PROGRAM STARTED")
 def delay(t):
     time.sleep(float(t))
 
-motor_enabled = False  # Global flag to control the motor thread
-siderealConst = 100 #Constant for LXD75 RA
-m0=1
-m1=1
-m2=1
-currentSpeed = Decimal(1.000) #Speed multiplier
+motor_stop_event = Event()  # Event to control stopping the motor thread
+motor_thread = None         # Keep track of the motor thread
+currentSpeed = Decimal(1.000)  # Speed multiplier
 
-masterPeriod=1/32.1024
+masterPeriod = 1 / 32.1024
 
 resetPin = 0
 sleepPin = 1
@@ -28,7 +25,6 @@ dirPin = 4
 m0Pin = 5
 m1Pin = 6
 m2Pin = 7
-
 
 class MotDriver:
     def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
@@ -41,11 +37,12 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
         self.name = name
+        self.enabled = False  # Added an enabled flag
 
-RA = MotDriver(4,17,27,14,15,18, 22,23, "Right Ascension")
-LD = MotDriver(7,1,10,12,9,16,20,21, "Left Declination")
+RA = MotDriver(4, 17, 27, 14, 15, 18, 22, 23, "Right Ascension")
+LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
 
-drivers = [RA,LD]
+drivers = [RA, LD]
 
 GPIO.setmode(GPIO.BCM)
 
@@ -66,17 +63,24 @@ def step(motor, period):
     delay(period / 2)
 
 app = Flask(__name__)
-motor_enabled = True
-
 
 def enable_control():
-    global currentSpeed, motor_enabled
-    motor_enabled = True
+    global currentSpeed, motor_stop_event, motor_thread
+    
+    if motor_thread and motor_thread.is_alive():
+        return f"Motor already running at {currentSpeed}x sidereal"
+    
+    motor_stop_event.clear()  # Clear the event to start the thread
+    motor_thread = Thread(target=stepperThread, name="stepperThread")
+    motor_thread.start()
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
-    global motor_enabled
-    motor_enabled = False  # Stop the motor by setting the flag to False
+    global motor_stop_event, motor_thread
+    
+    motor_stop_event.set()  # Set the event to signal the thread to stop
+    if motor_thread:
+        motor_thread.join()  # Wait for the thread to finish
     return f"DISABLED"
 
 def sidereal_1x():
@@ -148,9 +152,10 @@ def index():
     return render_template('index.html', status=status)
 
 def stepperThread():
-    global masterPeriod, currentSpeed, motor_enabled
-    if motor_enabled:
+    global masterPeriod, currentSpeed, motor_stop_event
+    while not motor_stop_event.is_set():
         step(RA, 0.0312 / float(currentSpeed))
+        time.sleep(0.01)  # Small sleep to make the loop more responsive to control changes
 
 if __name__ == "__main__":
     app.run(debug=True)
