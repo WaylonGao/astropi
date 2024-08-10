@@ -54,9 +54,9 @@ def step(motor, period):
     print(motor.stepPin)
     print(f"Stepped period {period}")
     GPIO.output(motor.stepPin, GPIO.HIGH)
-    delay(period / 1)
+    delay(period / 2)
     GPIO.output(motor.stepPin, GPIO.LOW)
-    delay(period / 1)
+    delay(period / 2)
 
 for i in range(100):
     step(RA, 1)
