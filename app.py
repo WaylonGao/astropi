@@ -128,26 +128,31 @@ def decrement_speed():
 @app.route('/', methods=['GET'])
 def index():
     status = ""
+    
+    axis = request.args.get('axis')
+    if not axis:
+        return render_template('index.html', status="No axis selected")
+
     if 'control' in request.args:
         if request.args['control'] == 'on':
-            status = enable_control()
+            status = enable_control(axis)
         elif request.args['control'] == 'off':
-            status = disable_control()
+            status = disable_control(axis)
     elif 'command' in request.args:
         if request.args['command'] == 'sidereal1x':
-            status = sidereal_1x()
+            status = sidereal_1x(axis)
         elif request.args['command'] == 'sidereal2x':
-            status = sidereal_2x()
+            status = sidereal_2x(axis)
         elif request.args['command'] == 'sidereal5x':
-            status = sidereal_5x()
+            status = sidereal_5x(axis)
         elif request.args['command'] == 'sidereal50x':
-            status = sidereal_50x()
+            status = sidereal_50x(axis)
         elif request.args['command'] == 'sidereal100x':
-            status = sidereal_100x()
+            status = sidereal_100x(axis)
         elif request.args['command'] == 'increment':
-            status = increment_speed()
+            status = increment_speed(axis)
         elif request.args['command'] == 'decrement':
-            status = decrement_speed()
+            status = decrement_speed(axis)
     
     return render_template('index.html', status=status)
 
