@@ -44,9 +44,9 @@ GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
 GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
 
 
@@ -58,7 +58,7 @@ def step(motor, period):
     GPIO.output(motor.stepPin, GPIO.LOW)
     delay(period / 2)
 
-for i in range(100):
+for i in range(20):
     step(RA, 1)
 print("done")
 
