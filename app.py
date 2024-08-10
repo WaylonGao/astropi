@@ -29,6 +29,7 @@ m0Pin = 5
 m1Pin = 6
 m2Pin = 7
 
+
 class MotDriver:
     def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
         self.resetPin = resetPin
@@ -65,6 +66,8 @@ def step(motor, period):
     delay(period / 2)
 
 app = Flask(__name__)
+motor_enabled = True
+
 
 def enable_control():
     global currentSpeed, motor_enabled
