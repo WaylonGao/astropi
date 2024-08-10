@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template
 import RPi.GPIO as GPIO
-from threading import Thread, Event
 from decimal import Decimal
 import time
 
@@ -11,14 +10,8 @@ print("PROGRAM STARTED")
 def delay(t):
     time.sleep(float(t))
 
-RAmotor_stop_event = Event()  # Event to control stopping the motor thread
-LDmotor_stop_event = Event()  # Event to control stopping the motor thread
-RAmotor_thread = None         # Keep track of the motor thread
-LDmotor_thread = None         # Keep track of the motor thread
-RAcurrentSpeed = Decimal(1.000)  # Speed multiplier
-LDcurrentSpeed = Decimal(1.000)  # Speed multiplier
-
-masterPeriod = 1 / 32.1024
+RAcurrentSpeed = Decimal(1.000)  # Speed multiplier for RA
+LDcurrentSpeed = Decimal(1.000)  # Speed multiplier for LD
 
 resetPin = 0
 sleepPin = 1
@@ -40,7 +33,6 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
         self.name = name
-        self.enabled = False  # Added an enabled flag
 
 RA = MotDriver(4, 17, 27, 14, 15, 18, 22, 23, "Right Ascension")
 LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
@@ -59,115 +51,106 @@ for d in drivers:
     GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
-def step(motor, period):
-    GPIO.output(motor.stepPin, True)
-    delay(period / 2)
-    GPIO.output(motor.stepPin, False)
-    delay(period / 2)
-
-app = Flask(__name__)
-
 def enable_control(axis):
-    global RAcurrentSpeed, LDcurrentSpeed, RAmotor_stop_event, LDmotor_stop_event, RAmotor_thread, LDmotor_thread
-    
     if axis == "RA":
         GPIO.output(RA.enablePin, GPIO.LOW)
         return f"RA ENABLED"
     elif axis == "LD":
         GPIO.output(LD.enablePin, GPIO.LOW)
         return f"LD ENABLED"
-    else:
-        return "UNEXPECTED ERROR OCCURED IN enable_control()"
-
-"""
-    if axis == "RA":
-        if RAmotor_thread and motor_thread.is_alive():
-            return f"Motor already running at {currentSpeed}x sidereal"
-        
-        RAmotor_stop_event.clear()  # Clear the event to start the thread
-        RAmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
-        RAmotor_thread.start()
-        return f"RA ENABLED, Running at {currentSpeed}x sidereal"
-    if axis == "LD":
-        if LDmotor_thread and motor_thread.is_alive():
-            return f"Motor already running at {currentSpeed}x sidereal"
-        
-        LDmotor_stop_event.clear()  # Clear the event to start the thread
-        LDmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
-        LDmotor_thread.start()
-        return f"LD ENABLED, Running at {currentSpeed}x sidereal"
-    """
+    return "UNKNOWN AXIS"
 
 def disable_control(axis):
-    global motor_stop_event, motor_thread
-    
     if axis == "RA":
         GPIO.output(RA.enablePin, GPIO.HIGH)
-    if axis == "LD":
+        return f"RA DISABLED"
+    elif axis == "LD":
         GPIO.output(LD.enablePin, GPIO.HIGH)
-
-    #motor_stop_event.set()  # Set the event to signal the thread to stop
-    #if motor_thread:
-    #    motor_thread.join()  # Wait for the thread to finish
-    return f"RA DISABLED"
+        return f"LD DISABLED"
+    return "UNKNOWN AXIS"
 
 def sidereal_1x(axis):
-    global RAcurrentSpeed, LDcurrentSpeed
     if axis == "RA":
+        global RAcurrentSpeed
         RAcurrentSpeed = 1
-        RAcurrentSpeed = round(RAcurrentSpeed, 3)
-        return f"Running at {RAcurrentSpeed}x sidereal"
-    if axis == "LD":
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
         LDcurrentSpeed = 1
-        LDcurrentSpeed = round(LDcurrentSpeed, 3)
-        return f"Running at {LDcurrentSpeed}x sidereal"
-    else:
-        return "UNEXPECTED ERROR OCCURED IN sidereal_1x"
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def sidereal_2x(axis):
-    global currentSpeed
-    currentSpeed = 2
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 2
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 2
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def sidereal_5x(axis):
-    global currentSpeed
-    currentSpeed = 5
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 5
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 5
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def sidereal_50x(axis):
-    global currentSpeed
-    currentSpeed = 50
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 50
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 50
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def sidereal_100x(axis):
-    global currentSpeed
-    currentSpeed = 100
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 100
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 100
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def increment_speed(axis):
-    global currentSpeed
-    currentSpeed += 0.1
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed += Decimal('0.1')
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed += Decimal('0.1')
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 def decrement_speed(axis):
-    global currentSpeed
-    currentSpeed -= 0.1
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed -= Decimal('0.1')
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed -= Decimal('0.1')
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+    return "UNKNOWN AXIS"
 
 @app.route('/', methods=['GET'])
 def index():
     status = ""
-    
     axis = request.args.get('axis')
-    if not axis:
-        return render_template('index.html', status="No axis selected")
-
+    
     if 'control' in request.args:
         if request.args['control'] == 'on':
             status = enable_control(axis)
@@ -190,23 +173,6 @@ def index():
             status = decrement_speed(axis)
     
     return render_template('index.html', status=status)
-
-def RAstepperThread():
-    global masterPeriod, currentSpeed, motor_stop_event
-    while not motor_stop_event.is_set():
-        step(RA, 0.0312 / float(currentSpeed))
-
-def LDstepperThread():
-    global masterPeriod, currentSpeed, motor_stop_event
-    while not motor_stop_event.is_set():
-        step(RA, 0.0312 / float(currentSpeed))
-
-
-RAmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
-RAmotor_thread.start()
-LDmotor_thread = Thread(target=LDstepperThread, name="LDstepperThread")
-LDmotor_thread.start()
-
 
 if __name__ == "__main__":
     app.run(debug=True)
