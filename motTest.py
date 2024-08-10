@@ -47,6 +47,17 @@ ax = LD
 
 GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
+GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+ax = RA
+
+
+GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
+GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(28, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
 GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
