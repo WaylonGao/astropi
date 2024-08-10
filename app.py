@@ -70,7 +70,16 @@ app = Flask(__name__)
 def enable_control(axis):
     global RAcurrentSpeed, LDcurrentSpeed, RAmotor_stop_event, LDmotor_stop_event, RAmotor_thread, LDmotor_thread
     
+    if axis == "RA":
+        GPIO.output(RA.enablePin, GPIO.LOW)
+        return f"RA ENABLED"
+    elif axis == "LD":
+        GPIO.output(LD.enablePin, GPIO.LOW)
+        return f"LD ENABLED"
+    else:
+        return "UNEXPECTED ERROR OCCURED IN enable_control()"
 
+"""
     if axis == "RA":
         if RAmotor_thread and motor_thread.is_alive():
             return f"Motor already running at {currentSpeed}x sidereal"
@@ -87,6 +96,7 @@ def enable_control(axis):
         LDmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
         LDmotor_thread.start()
         return f"LD ENABLED, Running at {currentSpeed}x sidereal"
+    """
 
 def disable_control(axis):
     global motor_stop_event, motor_thread
@@ -102,10 +112,17 @@ def disable_control(axis):
     return f"RA DISABLED"
 
 def sidereal_1x(axis):
-    global currentSpeed
-    currentSpeed = 1
-    currentSpeed = round(currentSpeed, 3)
-    return f"Running at {currentSpeed}x sidereal"
+    global RAcurrentSpeed, LDcurrentSpeed
+    if axis == "RA":
+        RAcurrentSpeed = 1
+        RAcurrentSpeed = round(RAcurrentSpeed, 3)
+        return f"Running at {RAcurrentSpeed}x sidereal"
+    if axis == "LD":
+        LDcurrentSpeed = 1
+        LDcurrentSpeed = round(LDcurrentSpeed, 3)
+        return f"Running at {LDcurrentSpeed}x sidereal"
+    else:
+        return "UNEXPECTED ERROR OCCURED IN sidereal_1x"
 
 def sidereal_2x(axis):
     global currentSpeed
@@ -178,6 +195,18 @@ def RAstepperThread():
     global masterPeriod, currentSpeed, motor_stop_event
     while not motor_stop_event.is_set():
         step(RA, 0.0312 / float(currentSpeed))
+
+def LDstepperThread():
+    global masterPeriod, currentSpeed, motor_stop_event
+    while not motor_stop_event.is_set():
+        step(RA, 0.0312 / float(currentSpeed))
+
+
+RAmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
+RAmotor_thread.start()
+LDmotor_thread = Thread(target=LDstepperThread, name="LDstepperThread")
+LDmotor_thread.start()
+
 
 if __name__ == "__main__":
     app.run(debug=True)
