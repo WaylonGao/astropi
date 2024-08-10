@@ -71,7 +71,7 @@ def step(motor, period):
     
 
 for i in range(20):
-    step(RA, 2)
+    step(RA, 0.2)
 print("done")
 
 GPIO.cleanup()
