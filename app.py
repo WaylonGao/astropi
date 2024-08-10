@@ -11,9 +11,12 @@ print("PROGRAM STARTED")
 def delay(t):
     time.sleep(float(t))
 
-motor_stop_event = Event()  # Event to control stopping the motor thread
-motor_thread = None         # Keep track of the motor thread
-currentSpeed = Decimal(1.000)  # Speed multiplier
+RAmotor_stop_event = Event()  # Event to control stopping the motor thread
+LDmotor_stop_event = Event()  # Event to control stopping the motor thread
+RAmotor_thread = None         # Keep track of the motor thread
+LDmotor_thread = None         # Keep track of the motor thread
+RAcurrentSpeed = Decimal(1.000)  # Speed multiplier
+LDcurrentSpeed = Decimal(1.000)  # Speed multiplier
 
 masterPeriod = 1 / 32.1024
 
@@ -64,62 +67,77 @@ def step(motor, period):
 
 app = Flask(__name__)
 
-def enable_control():
-    global currentSpeed, motor_stop_event, motor_thread
+def enable_control(axis):
+    global RAcurrentSpeed, LDcurrentSpeed, RAmotor_stop_event, LDmotor_stop_event, RAmotor_thread, LDmotor_thread
     
-    if motor_thread and motor_thread.is_alive():
-        return f"Motor already running at {currentSpeed}x sidereal"
-    
-    motor_stop_event.clear()  # Clear the event to start the thread
-    motor_thread = Thread(target=stepperThread, name="stepperThread")
-    motor_thread.start()
-    return f"ENABLED, Running at {currentSpeed}x sidereal"
 
-def disable_control():
+    if axis == "RA":
+        if RAmotor_thread and motor_thread.is_alive():
+            return f"Motor already running at {currentSpeed}x sidereal"
+        
+        RAmotor_stop_event.clear()  # Clear the event to start the thread
+        RAmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
+        RAmotor_thread.start()
+        return f"RA ENABLED, Running at {currentSpeed}x sidereal"
+    if axis == "LD":
+        if LDmotor_thread and motor_thread.is_alive():
+            return f"Motor already running at {currentSpeed}x sidereal"
+        
+        LDmotor_stop_event.clear()  # Clear the event to start the thread
+        LDmotor_thread = Thread(target=RAstepperThread, name="RAstepperThread")
+        LDmotor_thread.start()
+        return f"LD ENABLED, Running at {currentSpeed}x sidereal"
+
+def disable_control(axis):
     global motor_stop_event, motor_thread
     
-    motor_stop_event.set()  # Set the event to signal the thread to stop
-    if motor_thread:
-        motor_thread.join()  # Wait for the thread to finish
+    if axis == "RA":
+        GPIO.output(RA.enablePin, GPIO.HIGH)
+    if axis == "LD":
+        GPIO.output(LD.enablePin, GPIO.HIGH)
+
+    #motor_stop_event.set()  # Set the event to signal the thread to stop
+    #if motor_thread:
+    #    motor_thread.join()  # Wait for the thread to finish
     return f"RA DISABLED"
 
-def sidereal_1x():
+def sidereal_1x(axis):
     global currentSpeed
     currentSpeed = 1
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def sidereal_2x():
+def sidereal_2x(axis):
     global currentSpeed
     currentSpeed = 2
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def sidereal_5x():
+def sidereal_5x(axis):
     global currentSpeed
     currentSpeed = 5
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def sidereal_50x():
+def sidereal_50x(axis):
     global currentSpeed
     currentSpeed = 50
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def sidereal_100x():
+def sidereal_100x(axis):
     global currentSpeed
     currentSpeed = 100
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def increment_speed():
+def increment_speed(axis):
     global currentSpeed
     currentSpeed += 0.1
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-def decrement_speed():
+def decrement_speed(axis):
     global currentSpeed
     currentSpeed -= 0.1
     currentSpeed = round(currentSpeed, 3)
@@ -156,7 +174,7 @@ def index():
     
     return render_template('index.html', status=status)
 
-def stepperThread():
+def RAstepperThread():
     global masterPeriod, currentSpeed, motor_stop_event
     while not motor_stop_event.is_set():
         step(RA, 0.0312 / float(currentSpeed))
