@@ -89,7 +89,45 @@ def sidereal_1x(axis):
         LDcurrentSpeed = 1
         return "LD Running at 1x sidereal"
 
-# ... Include other sidereal speed functions similarly ...
+def sidereal_2x(axis):
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 2
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 2
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+
+def sidereal_5x(axis):
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 5
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 5
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+
+def sidereal_50x(axis):
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 50
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 50
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
+
+def sidereal_100x(axis):
+    if axis == "RA":
+        global RAcurrentSpeed
+        RAcurrentSpeed = 100
+        return f"RA Running at {RAcurrentSpeed}x sidereal"
+    elif axis == "LD":
+        global LDcurrentSpeed
+        LDcurrentSpeed = 100
+        return f"LD Running at {LDcurrentSpeed}x sidereal"
 
 def increment_speed(axis):
     if axis == "RA":
