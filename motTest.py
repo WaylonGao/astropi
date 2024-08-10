@@ -20,7 +20,7 @@ masterPeriod=32
 
 
 class MotDriver:
-    def __init__(self, resetPin, sleepPin, stepPin, enablePin, dirPin, m0Pin, m1Pin, m2Pin):
+    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin):
         self.resetPin = resetPin
         self.sleepPin = sleepPin
         self.stepPin = stepPin
@@ -30,15 +30,15 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
 
-RA = MotDriver(14,27,17,23,4,22,18,15)
-LD = MotDriver(12,25,1,21,7,20,16,9)
+RA = MotDriver(7,11,13,8,10,12,15,16)
+LD = MotDriver(26,28,19,32,21,36,38,40)
 
 drivers = [RA,LD]
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
-ax = LD
-"""
+ax = RA
+
 GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.LOW)
@@ -47,31 +47,7 @@ GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.LOW)
-"""
-input("HIGH resetpin")
-print(ax.resetPin)
-GPIO.setup(ax.resetPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-print("resetPin set to HIGH")
 
-input("LOW enablePin")
-print(ax.enablePin)
-GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
-print("LOW enablePin")
-
-input("HIGH sleepPin")
-print(ax.sleepPin)
-GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
-print("sleepPin set to HIGH")
-
-GPIO.setup(ax.stepPin, GPIO.OUT)
-
-print("stepPin setup")
-
-
-input("HIGH dirPin")
-print(ax.dirPin)
-GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.HIGH)
-print("dirPin setup HIGH")
 
 
 
