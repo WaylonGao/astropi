@@ -147,9 +147,8 @@ def index():
 
 def stepperThread():
     global masterPeriod, currentSpeed, motor_enabled
-    while motor_enabled:
+    if motor_enabled:
         step(RA, 0.0312 / float(currentSpeed))
-        time.sleep(0.01)  # Allow the loop to be interrupted
 
 if __name__ == "__main__":
     app.run(debug=True)
