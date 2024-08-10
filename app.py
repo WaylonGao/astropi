@@ -83,9 +83,11 @@ def disable_control(axis):
 # Speed adjustment functions
 def sidereal_1x(axis):
     if axis == "RA":
+        global RAcurrentSpeed
         RAcurrentSpeed = 1
         return "RA Running at 1x sidereal"
     elif axis == "LD":
+        global LDcurrentSpeed
         LDcurrentSpeed = 1
         return "LD Running at 1x sidereal"
 
