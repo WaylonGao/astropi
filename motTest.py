@@ -44,8 +44,8 @@ GPIO.setup(ax.sleepPin, GPIO.OUT, initial=GPIO.HIGH) #HIGH TO ENABLE
 GPIO.setup(ax.stepPin, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(ax.enablePin, GPIO.OUT, initial=GPIO.LOW) #LOW to enable
 GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
-GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
 input("start:")
