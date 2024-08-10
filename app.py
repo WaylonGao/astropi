@@ -19,7 +19,7 @@ m1=1
 m2=1
 currentSpeed = Decimal(1.000) #Speed multiplier
 
-masterPeriod=1
+masterPeriod=1/32.1024
 
 
 resetPin = 0
@@ -32,7 +32,7 @@ m1Pin = 6
 m2Pin = 7
 
 class MotDriver:
-    def __init__(self, resetPin, sleepPin, stepPin, enablePin, dirPin, m0Pin, m1Pin, m2Pin):
+    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
         self.resetPin = resetPin
         self.sleepPin = sleepPin
         self.stepPin = stepPin
@@ -41,9 +41,10 @@ class MotDriver:
         self.m0Pin = m0Pin
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
+        self.name = name
 
-RA = MotDriver(14,27,17,23,4,22,18,15)
-LD = MotDriver(12,25,1,21,7,20,16,9)
+RA = MotDriver(4,17,27,14,15,18, 22,23, "Right Ascension")
+LD = MotDriver(7,1,10,12,9,16,20,21, "Left Declination")
 
 drivers = [RA,LD]
 
@@ -54,7 +55,7 @@ GPIO.setmode(GPIO.BCM)
 for d in drivers:
     GPIO.setup(d.resetPin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
@@ -63,13 +64,13 @@ for d in drivers:
     
 
 def step(motor, period):
-    print(f"Stepped period {period}")
     GPIO.output(motor.stepPin, True)
     delay(period / 2)
     GPIO.output(motor.stepPin, False)
     delay(period / 2)
 
         
+    
 
 app = Flask(__name__)
 
@@ -157,7 +158,7 @@ def index():
 def stepperThread():
     global masterPeriod, currentSpeed
     while True:
-        step(LD, masterPeriod/currentSpeed)
+        step(RA, masterPeriod/currentSpeed)
 
 
 Thread(target=stepperThread,name="stepperThread").start()
