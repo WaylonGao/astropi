@@ -48,7 +48,7 @@ GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
-
+input("start:")
 
 def step(motor, period):
     print(motor.stepPin)
