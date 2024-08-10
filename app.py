@@ -32,7 +32,7 @@ m1Pin = 6
 m2Pin = 7
 
 class MotDriver:
-    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
+    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name, enabled):
         self.resetPin = resetPin
         self.sleepPin = sleepPin
         self.stepPin = stepPin
@@ -42,9 +42,11 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
         self.name = name
+        self.enabled = enabled
 
 RA = MotDriver(4,17,27,14,15,18, 22,23, "Right Ascension")
 LD = MotDriver(7,1,10,12,9,16,20,21, "Left Declination")
+
 
 drivers = [RA,LD]
 
@@ -79,9 +81,11 @@ app = Flask(__name__)
 def enable_control():
     global currentSpeed
     currentSpeed = round(currentSpeed, 3)
+    Thread(target=stepperThread,name="stepperThread").start()
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
+    #STOP MOTOR THREAD HERE
     return f"DISABLED"
 
 def sidereal_1x():
