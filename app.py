@@ -11,8 +11,7 @@ print("PROGRAM STARTED")
 def delay(t):
     time.sleep(float(t))
 
-
-run = True
+motor_enabled = False  # Global flag to control the motor thread
 siderealConst = 100 #Constant for LXD75 RA
 m0=1
 m1=1
@@ -20,7 +19,6 @@ m2=1
 currentSpeed = Decimal(1.000) #Speed multiplier
 
 masterPeriod=1/32.1024
-
 
 resetPin = 0
 sleepPin = 1
@@ -32,7 +30,7 @@ m1Pin = 6
 m2Pin = 7
 
 class MotDriver:
-    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name, enabled):
+    def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
         self.resetPin = resetPin
         self.sleepPin = sleepPin
         self.stepPin = stepPin
@@ -42,17 +40,13 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
         self.name = name
-        self.enabled = enabled
 
 RA = MotDriver(4,17,27,14,15,18, 22,23, "Right Ascension")
 LD = MotDriver(7,1,10,12,9,16,20,21, "Left Declination")
 
-
 drivers = [RA,LD]
 
 GPIO.setmode(GPIO.BCM)
-#GPIO.setup(26, GPIO.OUT) #STEP PIN
-#GPIO.setup(26, GPIO.OUT) #ENABLE PIN
 
 for d in drivers:
     GPIO.setup(d.resetPin, GPIO.OUT, initial=GPIO.HIGH)
@@ -63,7 +57,6 @@ for d in drivers:
     GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
-    
 
 def step(motor, period):
     GPIO.output(motor.stepPin, True)
@@ -71,21 +64,17 @@ def step(motor, period):
     GPIO.output(motor.stepPin, False)
     delay(period / 2)
 
-        
-    
-
 app = Flask(__name__)
 
-
-# Define subroutines
 def enable_control():
-    global currentSpeed
-    currentSpeed = round(currentSpeed, 3)
-    Thread(target=stepperThread,name="stepperThread").start()
+    global currentSpeed, motor_enabled
+    motor_enabled = True
+    Thread(target=stepperThread, name="stepperThread").start()  # Start the thread when enabled
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
-    #STOP MOTOR THREAD HERE
+    global motor_enabled
+    motor_enabled = False  # Stop the motor by setting the flag to False
     return f"DISABLED"
 
 def sidereal_1x():
@@ -130,7 +119,6 @@ def decrement_speed():
     currentSpeed = round(currentSpeed, 3)
     return f"Running at {currentSpeed}x sidereal"
 
-# Define routes
 @app.route('/', methods=['GET'])
 def index():
     status = ""
@@ -157,16 +145,11 @@ def index():
     
     return render_template('index.html', status=status)
 
-
-
 def stepperThread():
-    global masterPeriod, currentSpeed
-    while True:
+    global masterPeriod, currentSpeed, motor_enabled
+    while motor_enabled:
         step(RA, 0.0312 / float(currentSpeed))
-
-
-Thread(target=stepperThread,name="stepperThread").start()
-print("stepperThread started")
+        time.sleep(0.01)  # Allow the loop to be interrupted
 
 if __name__ == "__main__":
     app.run(debug=True)
