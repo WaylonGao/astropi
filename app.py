@@ -151,6 +151,7 @@ def decrement_speed(axis):
 @app.route('/', methods=['GET'])
 def index():
     status = ""
+    
     axis = request.args.get('axis')
     if not axis:
         return render_template('index.html', status="No axis selected")
@@ -163,12 +164,21 @@ def index():
     elif 'command' in request.args:
         if request.args['command'] == 'sidereal1x':
             status = sidereal_1x(axis)
+        elif request.args['command'] == 'sidereal2x':
+            status = sidereal_2x(axis)
+        elif request.args['command'] == 'sidereal5x':
+            status = sidereal_5x(axis)
+        elif request.args['command'] == 'sidereal50x':
+            status = sidereal_50x(axis)
+        elif request.args['command'] == 'sidereal100x':
+            status = sidereal_100x(axis)
         elif request.args['command'] == 'increment':
             status = increment_speed(axis)
         elif request.args['command'] == 'decrement':
             status = decrement_speed(axis)
-
+    
     return render_template('index.html', status=status)
+
 
 # Stepper thread functions
 def RAstepperThread():
