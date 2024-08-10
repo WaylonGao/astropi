@@ -53,6 +53,7 @@ GPIO.setup(ax.dirPin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m0Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m1Pin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+
 ax = RA
 
 
@@ -89,7 +90,7 @@ def step(motor, period):
 
 for i in range(32*200):
     step(RA, 0.0002)
-    step(LD, 0.0002)
+    #step(LD, 0.0002)
     
 print("done")
 
