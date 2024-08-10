@@ -30,12 +30,18 @@ class MotDriver:
         self.m1Pin = m1Pin
         self.m2Pin = m2Pin
 
-RA = MotDriver(7,11,13,8,10,12,15,16)
-LD = MotDriver(26,28,19,32,21,36,38,40)
+#RA = MotDriver(7,11,13,8,10,12,15,16)
+#LD = MotDriver(26,28,19,32,21,36,38,40)
 
+
+
+
+
+RA = MotDriver(4,17,27,14,15,18, 22,23)
+LD = MotDriver(7,1,10,12,9,16,20,21)
 drivers = [RA,LD]
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
 ax = LD
 
@@ -72,6 +78,7 @@ def step(motor, period):
 
 for i in range(32*200):
     step(RA, 0.0002)
+    step(LD, 0.0002)
     
 print("done")
 
