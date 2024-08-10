@@ -50,13 +50,25 @@ GPIO.setup(ax.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
 input("start:")
 
-def step(motor, period):
+def step1(motor, period):
     print(motor.stepPin)
     print(f"Stepped period {period}")
     GPIO.output(motor.stepPin, GPIO.HIGH)
     delay(period / 2)
+    
     GPIO.output(motor.stepPin, GPIO.LOW)
     delay(period / 2)
+
+def step(motor, period):
+    
+    GPIO.output(motor.stepPin, GPIO.HIGH)
+    print(f"MOTOR LOW ON {motor.stepPin}")
+    time.sleep(period)
+    GPIO.output(motor.stepPin, GPIO.LOW)
+    print(f"MOTOR LOW ON {motor.stepPin}")
+    time.sleep(period)
+
+    
 
 for i in range(20):
     step(RA, 1)
