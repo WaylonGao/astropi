@@ -155,7 +155,7 @@ def stepperThread():
     global masterPeriod, currentSpeed, motor_stop_event
     while not motor_stop_event.is_set():
         step(RA, 0.0312 / float(currentSpeed))
-        time.sleep(0.01)  # Small sleep to make the loop more responsive to control changes
+        #time.sleep(0.01)  # Small sleep to make the loop more responsive to control changes
 
 if __name__ == "__main__":
     app.run(debug=True)
