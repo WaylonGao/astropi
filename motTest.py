@@ -89,7 +89,7 @@ def step(motor, period):
     
 
 for i in range(32*200):
-    step(RA, 0.0002)
+    #step(RA, 0.0002)
     step(LD, 0.0002)
     
 print("done")
