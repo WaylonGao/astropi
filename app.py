@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 from decimal import Decimal
 import time
 
+app = Flask(__name__)
 GPIO.setwarnings(False)
 
 print("PROGRAM STARTED")
