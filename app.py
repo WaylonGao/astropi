@@ -69,7 +69,6 @@ app = Flask(__name__)
 def enable_control():
     global currentSpeed, motor_enabled
     motor_enabled = True
-    Thread(target=stepperThread, name="stepperThread").start()  # Start the thread when enabled
     return f"ENABLED, Running at {currentSpeed}x sidereal"
 
 def disable_control():
