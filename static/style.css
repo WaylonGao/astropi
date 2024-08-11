@@ -27,12 +27,16 @@ body {
     background-color: #333333;
     border: 1px solid grey;
     text-align: center;
-    display: block; /* Change to block */
-    padding: 5px;
+    display: block; /* Ensure the title is on its own line */
+    padding: 10px; /* Increase padding for better visual appeal */
     border-radius: 8px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 20px; /* Space above the title */
+    margin-bottom: 10px; /* Space below the title */
+    font-size: 1.5em; /* Adjust font size for better readability */
+    font-weight: bold; /* Make the text bold */
+    text-transform: uppercase; /* Make text uppercase for emphasis */
 }
+
 
 .axisContainer {
     margin: 20px auto;
