@@ -183,7 +183,8 @@ def goTo():
     global currentPos, currentTarget
     ##First calculate angle difference between the two
     #currentTarget - currentPos
-    
+    print(f"currentPos: {currentPos}")
+    print(f"currentTarget: {currentTarget}")
     raDelta= currentTarget.RA - HMStoDeg(currentPos.RA)
     ldDelta= currentTarget.LD - DMStoDeg(currentPos.LD)
     Thread(target=goToThread(RA, raDelta)).start()
