@@ -247,12 +247,12 @@ def reboot():
 def restartProgram():
     disable_control(RA)
     disable_control(LD)
-    os.system("sudo systemctl stop flaskapp && sleep 1 && sudo systemctl start flaskapp")
+    os.system("./restartProgram.sh")
 
 def updateProgram():
     disable_control(RA)
     disable_control(LD)
-    os.system("sudo systemctl stop flaskapp && git pull && sudo systemctl start flaskapp")
+    os.system("./update.sh")
 
 
 # Speed adjustment functions
