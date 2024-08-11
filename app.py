@@ -50,8 +50,8 @@ class Target:
 RA = MotDriver(4, 17, 27, 14, 15, 18, 22, 23, "Right Ascension")
 LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
 
-currentTarget = Target("","","")
-currentPos = Target("","","")
+currentTarget = Target("00","00","")
+currentPos = Target("00","00","")
 
 drivers = [RA, LD]
 
