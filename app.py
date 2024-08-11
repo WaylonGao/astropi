@@ -355,10 +355,12 @@ def index():
             status = decrement_speed(axis)
         elif request.args['command'] == 'shutdown':
             # Redirect to home and schedule shutdown
+            GPIO.cleanup()
             status = "Redirecting to home before shutdown..."
             Thread(target=shutdown).start()
             return redirect(url_for('index'))
         elif request.args['command'] == 'reboot':
+            GPIO.cleanup()
             # Redirect to home and schedule reboot
             status = "Redirecting to home before reboot..."
             Thread(target=reboot).start()
