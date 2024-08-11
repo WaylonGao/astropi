@@ -171,12 +171,12 @@ def goToThread(motor: MotDriver, delta):
     deltaMinor = delta - deltaMajor #The small bit to microstep
 
     #First, make the major delta movement (full steps)
-    setMicrostepping(motor, 32) #Set motor to 1/32 steps
+    setMicrostepping(motor, 16) #Set motor to 1/16 steps
 
-    StepsToTake = deltaMajor * 32 * 240 #240 steps per output degree
+    StepsToTake = deltaMajor * 16 * 240 #240 steps per output degree
     print(f"{motor.name} steps to take: {StepsToTake}")
     for i in range (int(StepsToTake)):
-        step(motor, 0.000001)
+        step(motor, 0.00001)
 
     time.sleep(0.01)
 
