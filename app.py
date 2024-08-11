@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import RPi.GPIO as GPIO
 from threading import Thread, Event
 from decimal import Decimal
@@ -191,11 +191,15 @@ def index():
         elif request.args['command'] == 'decrement':
             status = decrement_speed(axis)
         elif request.args['command'] == 'shutdown':
-            status = "SHUTTING DOWN"
-            shutdown()
+            # Redirect to home and schedule shutdown
+            status = "Redirecting to home before shutdown..."
+            Thread(target=shutdown).start()
+            return redirect(url_for('index'))
         elif request.args['command'] == 'reboot':
-            status = "REBOOTING"
-            reboot()
+            # Redirect to home and schedule reboot
+            status = "Redirecting to home before reboot..."
+            Thread(target=reboot).start()
+            return redirect(url_for('index'))
     
     return render_template('index.html', status=status)
 
