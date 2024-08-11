@@ -52,9 +52,13 @@ class MotDriver:
 
 class Target:
     def __init__(self, RA, LD, name = ""):
-        self.RA = RA
+        self.RA = RA #SPECIFIED IN 
         self.LD = LD
         self.name = name
+
+    def getRaDeg():
+        pass
+
 
 RA = MotDriver(4, 17, 27, 14, 15, 18, 22, 23, "Right Ascension")
 LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
@@ -167,12 +171,12 @@ def goToThread(motor: MotDriver, delta):
     deltaMinor = delta - deltaMajor #The small bit to microstep
 
     #First, make the major delta movement (full steps)
-    setMicrostepping(motor, 16) #Set motor to quarter steps
+    setMicrostepping(motor, 32) #Set motor to 1/32 steps
 
-    StepsToTake = deltaMajor * 16 * 240 #240 steps per output degree
+    StepsToTake = deltaMajor * 32 * 240 #240 steps per output degree
     print(f"{motor.name} steps to take: {StepsToTake}")
     for i in range (int(StepsToTake)):
-        step(motor, 0.00001)
+        step(motor, 0.000001)
 
     time.sleep(0.01)
 
