@@ -356,7 +356,11 @@ def index():
         elif request.args['command'] == 'selectOrion':
             global currentTarget, currentPos
             status = "ORION nebula selected"
-            currentTarget = Target(HMStoDeg("03h 47.0m"),DMStoDeg("+24º 07’"),"M42 Orion Nebula")
+            
+            currentTarget.RA = HMStoDeg("03h 47.0m")
+            currentTarget.LD = DMStoDeg("+24º 07’")
+            currentTarget.name = "M42 Orion Nebula"
+
             goTo()
             currentPos=currentTarget
             #RA 03h 47.0m, LD. +24º 07’
@@ -365,7 +369,11 @@ def index():
         elif request.args['command'] == 'goHome':
             global currentTarget, currentPos
             status = "HOME position selected"
-            currentTarget = Target(HMStoDeg("00h 00.0m"),DMStoDeg("+00º 00’"),"Home position")
+
+            currentTarget.RA = HMStoDeg("00h 00.0m")
+            currentTarget.LD = DMStoDeg("+00º 00’")
+            currentTarget.name = "Home position"
+
             goTo()
             currentPos=currentTarget
             return redirect(url_for('index'))
