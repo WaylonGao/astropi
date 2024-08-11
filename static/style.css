@@ -23,19 +23,18 @@ body {
 }
 
 .axisTitle {
+    color: #f0f0f0;
+    background-color: #333333;
+    border: 1px solid grey;
+    text-align: center;
+    display: block; /* Change to block */
     padding: 5px;
     border-radius: 8px;
     margin-top: 20px;
     margin-bottom: 10px;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    color: #f0f0f0;
-    background-color: #333333;
-    border: 1px solid grey;
-    display: block;
-    border-radius: 8px;
-}
 
+    font-family: Arial, sans-serif;
+}
 .axisContainer {
     margin: 20px auto;
     text-align: center;
