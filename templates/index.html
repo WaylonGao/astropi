@@ -4,106 +4,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title class="darkBgText">AstroPico control panel</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .autocomplete {
-            position: relative;
-            display: inline-block;
-        }
-
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 4px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            z-index: 99;
-            background-color: #fff;
-        }
-
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .autocomplete-items div:hover {
-            background-color: #e9e9e9;
-        }
-
-        .autocomplete-active {
-            background-color: DodgerBlue !important;
-            color: #ffffff;
-        }
-    </style>
 </head>
 <body>
     <h1 class="titleText">AstroPi</h1>
 
-    <!-- Your existing HTML content -->
+    <div class="axisContainer">
+        <div>
+            <h2 class="axisTitle">RA AXIS</h2>
+        </div>        
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="RA">
+            <button name="control" value="on">ENABLE</button>
+            <button class="buttonRed" name="control" value="off">DISABLE</button>
+            <button name="command" value="sidereal1x">SIDEREAL 1x</button>
+            <button name="command" value="sidereal2x">SIDEREAL 2x</button>
+            <button name="command" value="sidereal5x">SIDEREAL 5x</button>
+            <button name="command" value="sidereal50x">SIDEREAL 50x</button>
+            <button name="command" value="sidereal100x">SIDEREAL 100x</button>
+            <button name="command" value="increment">+0.1x</button>
+            <button name="command" value="decrement">-0.1x</button>
+        </form>
+    </div>
 
     <div class="axisContainer">
         <div>
-            <h2 class="axisTitle">Search Catalog</h2>
-        </div>
-        <input id="autocomplete-input" type="text" name="search" placeholder="Search...">
+            <h2 class="axisTitle">LD AXIS</h2>
+        </div>        
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="LD">
+            <button name="control" value="on">ENABLE</button>
+            <button class="buttonRed" name="control" value="off">DISABLE</button>
+            <button name="command" value="sidereal1x">SIDEREAL 1x</button>
+            <button name="command" value="sidereal2x">SIDEREAL 2x</button>
+            <button name="command" value="sidereal5x">SIDEREAL 5x</button>
+            <button name="command" value="sidereal50x">SIDEREAL 50x</button>
+            <button name="command" value="sidereal100x">SIDEREAL 100x</button>
+            <button name="command" value="increment">+0.1x</button>
+            <button name="command" value="decrement">-0.1x</button>
+        </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let input = document.getElementById('autocomplete-input');
-            let currentFocus;
+    <div class="axisContainer">
+        <div>
+            <h2 class="axisTitle">Pi control</h2>
+        </div>        
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="piControl">
+            <button class="buttonRed" name="command" value="shutdown">SHUTDOWN</button>
+            <button name="command" value="reboot">REBOOT</button>
+            <button name="command" value="restartprogram">RESTART PROGRAM</button>
+            <button name="command" value="updateprogram">UPDATE PROGRAM</button>
+        </form>
+    </div>
 
-            // Fetch the catalog data
-            fetch('/catalog')
-                .then(response => response.json())
-                .then(data => {
-                    let names = data;
-
-                    // Event handler for the input element
-                    input.addEventListener('input', function(e) {
-                        let val = this.value;
-                        closeAllLists();
-                        if (!val) return false;
-                        currentFocus = -1;
-
-                        // Create a container for the autocomplete items
-                        let container = document.createElement("DIV");
-                        container.setAttribute("id", this.id + "autocomplete-list");
-                        container.setAttribute("class", "autocomplete-items");
-                        this.parentNode.appendChild(container);
-
-                        // Add items to the autocomplete list
-                        names.forEach(name => {
-                            if (name.toLowerCase().includes(val.toLowerCase())) {
-                                let item = document.createElement("DIV");
-                                item.innerHTML = `<strong>${name.substr(0, val.length)}</strong>${name.substr(val.length)}`;
-                                item.innerHTML += `<input type='hidden' value='${name}'>`;
-
-                                item.addEventListener('click', function() {
-                                    input.value = this.getElementsByTagName("input")[0].value;
-                                    closeAllLists();
-                                });
-
-                                container.appendChild(item);
-                            }
-                        });
-                    });
-
-                    // Close all autocomplete lists in the document
-                    function closeAllLists(elmnt) {
-                        let items = document.getElementsByClassName("autocomplete-items");
-                        for (let i = 0; i < items.length; i++) {
-                            if (elmnt !== items[i] && elmnt !== input) {
-                                items[i].parentNode.removeChild(items[i]);
-                            }
-                        }
-                    }
-
-                    // Close the autocomplete list when clicking outside
-                    document.addEventListener("click", function(e) {
-                        closeAllLists(e.target);
-                    });
-                });
-        });
-    </script>
+    <p class="darkBgText">Current status:</p>
+    <p class="status">{{ status }}</p>
 </body>
 </html>

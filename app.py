@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, redirect, url_for
 import RPi.GPIO as GPIO
 from threading import Thread, Event
 from decimal import Decimal
