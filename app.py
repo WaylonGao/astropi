@@ -166,7 +166,31 @@ def stepTrim(num):
     return math.floor(num * 10) / 10
 
 
-def goToThread(motor: MotDriver, delta):
+def goToThreadRA(motor: MotDriver, delta):
+    deltaMajor = stepTrim(delta) #The largest movement to fullstep
+    deltaMinor = delta - deltaMajor #The small bit to microstep
+
+    #First, make the major delta movement (full steps)
+    setMicrostepping(motor, 16) #Set motor to 1/16 steps
+
+    StepsToTake = deltaMajor * 16 * 240 #240 steps per output degree
+    print(f"{motor.name} steps to take: {StepsToTake}")
+    for i in range (int(StepsToTake)):
+        step(motor, 0.00001)
+
+    time.sleep(0.01)
+
+    setMicrostepping(motor, 32) #Set motor to 1/32 microsteps
+    angleRotated = deltaMajor
+    while angleRotated < delta:
+        step(motor, 0.0001)
+        angleRotated += 0.01667 #1 1/32step = 0.01667 deg output
+        #Microstep the rest of the way
+    
+    print(f"{motor.name} ARRIVED AT DESTINATION")
+    exit #Exit the thread
+    
+def goToThreadLD(motor: MotDriver, delta):
     deltaMajor = stepTrim(delta) #The largest movement to fullstep
     deltaMinor = delta - deltaMajor #The small bit to microstep
 
@@ -192,7 +216,6 @@ def goToThread(motor: MotDriver, delta):
     
 
 
-
 def goTo():
     global currentPos, currentTarget
     ##First calculate angle difference between the two
@@ -201,9 +224,14 @@ def goTo():
     print(f"currentTarget: {currentTarget.RA},{currentTarget.LD}")
     raDelta= currentTarget.RA - HMStoDeg(currentPos.RA)
     ldDelta= currentTarget.LD - DMStoDeg(currentPos.LD)
-    Thread(target=goToThread(RA, raDelta)).start()
-    Thread(target=goToThread(LD, ldDelta)).start()
+    Thread(target=goToThreadRA(RA, raDelta)).start()
+    Thread(target=goToThreadLD(LD, ldDelta)).start()
+
+    raThread = Thread(target=goToThreadRA, args = (RA, raDelta))
+    ldThread = Thread(target=goToThreadLD, args = (LD, ldDelta))
     
+    raThread.start()
+    ldThread.start()
 
 
 # Motor stepping function
