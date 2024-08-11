@@ -16,8 +16,11 @@ import logging
 app = Flask(__name__)
 
 GPIO.setwarnings(False)
+
+##DISABLE LOGGING
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
+
 print("PROGRAM STARTED")
 
 def delay(t):
