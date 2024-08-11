@@ -247,12 +247,12 @@ def reboot():
 def restartProgram():
     disable_control(RA)
     disable_control(LD)
-    os.system("./restartProgram.sh")
+    os.system("sudo ./restartProgram.sh")
 
 def updateProgram():
     disable_control(RA)
     disable_control(LD)
-    os.system("./update.sh")
+    os.system("sudo ./update.sh")
 
 
 # Speed adjustment functions
