@@ -152,17 +152,17 @@ def stepTrim(num):
     return math.floor(num * 10) / 10
 
 
-def goToThread(motor, delta):
+def goToThread(motor: MotDriver, delta):
     deltaMajor = stepTrim(delta) #The largest movement to fullstep
     deltaMinor = delta - deltaMajor #The small bit to microstep
 
     #First, make the major delta movement (full steps)
-    setMicrostepping(motor, 1) #Set motor to full steps
+    setMicrostepping(motor, 4) #Set motor to quarter steps
 
-    StepsToTake = deltaMajor * 240 #240 steps per output degree
-    print(StepsToTake)
+    StepsToTake = deltaMajor * 4 * 240 #240 steps per output degree
+    print(f"{motor.name} steps to take: {StepsToTake}")
     for i in range (int(StepsToTake)):
-        step(motor, 0.1)
+        step(motor, 0.01)
 
     time.sleep(0.01)
 
@@ -173,7 +173,7 @@ def goToThread(motor, delta):
         angleRotated += 0.01667 #1 1/32step = 0.01667 deg output
         #Microstep the rest of the way
     
-    print("ARRIVED AT DESTINATION")
+    print(f"{motor.name} ARRIVED AT DESTINATION")
     exit #Exit the thread
     
 
