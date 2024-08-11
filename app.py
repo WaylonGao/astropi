@@ -24,6 +24,7 @@ LDcurrentSpeed = Decimal(1.000)
 
 masterPeriod = 1 / 32.1024
 
+
 # Define motor driver pins
 class MotDriver:
     def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
