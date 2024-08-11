@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import RPi.GPIO as GPIO
 from threading import Thread, Event
 from decimal import Decimal
 import time
 import os
 import math
+import json
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -192,6 +193,14 @@ def decrement_speed(axis):
     elif axis == "LD":
         LDcurrentSpeed -= Decimal(0.1)
         return f"LD Running at {LDcurrentSpeed}x sidereal"
+
+@app.route('/catalog')
+def catalog():
+    # Ensure you have a file named catalog.json in the same directory
+    with open('catalog.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    names = [entry['name'] for entry in data]
+    return jsonify(names)
 
 # Route definitions
 @app.route('/', methods=['GET'])
