@@ -7,11 +7,17 @@ import os
 import math
 import json
 
+
+import logging
+
+
+
 # Initialize Flask app
 app = Flask(__name__)
 
 GPIO.setwarnings(False)
-
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 print("PROGRAM STARTED")
 
 def delay(t):
