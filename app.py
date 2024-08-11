@@ -151,6 +151,7 @@ def DMStoDeg(dms):
 def stepTrim(num):
     return math.floor(num * 10) / 10
 
+
 def goToThread(motor, delta):
     deltaMajor = stepTrim(delta) #The largest movement to fullstep
     deltaMinor = delta - deltaMajor #The small bit to microstep
@@ -182,8 +183,9 @@ def goTo():
     global currentPos, currentTarget
     ##First calculate angle difference between the two
     #currentTarget - currentPos
-    raDelta= currentTarget.RA - currentPos.RA
-    ldDelta= currentTarget.LD - currentPos.LD
+    
+    raDelta= HMStoDeg(currentTarget.RA) - HMStoDeg(currentPos.RA)
+    ldDelta= DMStoDeg(currentTarget.LD) - DMStoDeg(currentPos.LD)
     Thread(target=goToThread(RA, raDelta)).start()
     Thread(target=goToThread(LD, ldDelta)).start()
     
