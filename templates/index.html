@@ -6,46 +6,50 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<h1 class="titleText">AstroPi</h1>
+    <h1 class="titleText">AstroPi</h1>
 
-<h2 class="axisTitle">RA AXIS</h2>
-<form action="/" method="get">    
-    <input type="hidden" name="axis" value="RA">
-    <button name="control" value="on">ENABLE</button>
-    <button class="buttonRed" name="control" value="off">DISABLE</button>
-    <button name="command" value="sidereal1x">SIDEREAL 1x</button>
-    <button name="command" value="sidereal2x">SIDEREAL 2x</button>
-    <button name="command" value="sidereal5x">SIDEREAL 5x</button>
-    <button name="command" value="sidereal50x">SIDEREAL 50x</button>
-    <button name="command" value="sidereal100x">SIDEREAL 100x</button>
-    <button name="command" value="increment">+0.1x</button>
-    <button name="command" value="decrement">-0.1x</button>
-</form>
+    <div class="axisContainer">
+        <h2 class="axisTitle">RA AXIS</h2>
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="RA">
+            <button name="control" value="on">ENABLE</button>
+            <button class="buttonRed" name="control" value="off">DISABLE</button>
+            <button name="command" value="sidereal1x">SIDEREAL 1x</button>
+            <button name="command" value="sidereal2x">SIDEREAL 2x</button>
+            <button name="command" value="sidereal5x">SIDEREAL 5x</button>
+            <button name="command" value="sidereal50x">SIDEREAL 50x</button>
+            <button name="command" value="sidereal100x">SIDEREAL 100x</button>
+            <button name="command" value="increment">+0.1x</button>
+            <button name="command" value="decrement">-0.1x</button>
+        </form>
+    </div>
 
-<h2 class="axisTitle">LD AXIS</h2>
-<form action="/" method="get">    
-    <input type="hidden" name="axis" value="LD">
-    <button name="control" value="on">ENABLE</button>
-    <button class="buttonRed" name="control" value="off">DISABLE</button>
-    <button name="command" value="sidereal1x">SIDEREAL 1x</button>
-    <button name="command" value="sidereal2x">SIDEREAL 2x</button>
-    <button name="command" value="sidereal5x">SIDEREAL 5x</button>
-    <button name="command" value="sidereal50x">SIDEREAL 50x</button>
-    <button name="command" value="sidereal100x">SIDEREAL 100x</button>
-    <button name="command" value="increment">+0.1x</button>
-    <button name="command" value="decrement">-0.1x</button>
-</form>
+    <div class="axisContainer">
+        <h2 class="axisTitle">LD AXIS</h2>
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="LD">
+            <button name="control" value="on">ENABLE</button>
+            <button class="buttonRed" name="control" value="off">DISABLE</button>
+            <button name="command" value="sidereal1x">SIDEREAL 1x</button>
+            <button name="command" value="sidereal2x">SIDEREAL 2x</button>
+            <button name="command" value="sidereal5x">SIDEREAL 5x</button>
+            <button name="command" value="sidereal50x">SIDEREAL 50x</button>
+            <button name="command" value="sidereal100x">SIDEREAL 100x</button>
+            <button name="command" value="increment">+0.1x</button>
+            <button name="command" value="decrement">-0.1x</button>
+        </form>
+    </div>
 
-<h2 class="axisTitle">Pi control</h2>
-<form action="/" method="get">    
-    <input type="hidden" name="axis" value="piControl">
-    <button name="buttonRed" value="shutdown">SHUTDOWN</button>
-    <button name="command" value="reboot">REBOOT</button>
-</form>
+    <div class="axisContainer">
+        <h2 class="axisTitle">Pi control</h2>
+        <form action="/" method="get">    
+            <input type="hidden" name="axis" value="piControl">
+            <button name="buttonRed" value="shutdown">SHUTDOWN</button>
+            <button name="command" value="reboot">REBOOT</button>
+        </form>
+    </div>
 
-
-
-<p class="darkBgText">Current status:</p>
-<p class="status">{{ status }}</p>
+    <p class="darkBgText">Current status:</p>
+    <p class="status">{{ status }}</p>
 </body>
 </html>
