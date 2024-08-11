@@ -83,9 +83,13 @@ def disable_control(axis):
         return "LD DISABLED"
     
 def shutdown():
+    disable_control(RA)
+    disable_control(LD)
     os.system("sudo shutdown -h now")
 
 def reboot():
+    disable_control(RA)
+    disable_control(LD)
     os.system("sudo shutdown -r now")
 
 
