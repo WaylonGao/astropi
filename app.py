@@ -304,6 +304,7 @@ def decrement_speed(axis):
 # Route definitions
 @app.route('/', methods=['GET'])
 def index():
+    global currentTarget, currentPos
     status = ""
     
     axis = request.args.get('axis')
@@ -354,7 +355,7 @@ def index():
         
 
         elif request.args['command'] == 'selectOrion':
-            global currentTarget, currentPos
+            #global currentTarget, currentPos
             status = "ORION nebula selected"
             
             currentTarget.RA = HMStoDeg("03h 47.0m")
@@ -367,7 +368,7 @@ def index():
             return redirect(url_for('index'))
         
         elif request.args['command'] == 'goHome':
-            global currentTarget, currentPos
+            
             status = "HOME position selected"
 
             currentTarget.RA = HMStoDeg("00h 00.0m")
