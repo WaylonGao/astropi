@@ -27,7 +27,6 @@ LDcurrentSpeed = Decimal(1.000)
 
 masterPeriod = 1 / 32.1024
 
-
 # Define motor driver pins
 class MotDriver:
     def __init__(self, dirPin, stepPin, sleepPin, resetPin, m2Pin, m1Pin, m0Pin, enablePin, name):
@@ -42,8 +41,17 @@ class MotDriver:
         self.name = name
         self.enabled = False
 
+class Target:
+    def __init__(self, RA, LD, name = ""):
+        self.RA = RA
+        self.LD = LD
+        self.name = name
+
 RA = MotDriver(4, 17, 27, 14, 15, 18, 22, 23, "Right Ascension")
 LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
+
+currentTarget = Target("","","")
+currentPos = Target("","","")
 
 drivers = [RA, LD]
 
@@ -55,31 +63,130 @@ for d in drivers:
     GPIO.setup(d.sleepPin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.stepPin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.enablePin, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(d.dirPin, GPIO.OUT, initial=GPIO.LOW) #LOW for sidereal
     GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
 
+def setMotorDirection(motor, direction):
+    if direction == "fwd":
+        GPIO.output(motor.dirPin, GPIO.LOW)
+    if direction == "rev":
+        GPIO.output(motor.dirPin, GPIO.HIGH)
+
+
+def setMicrostepping(motor, resolution):
+    #Resolution can be from the following: 1,2,4,8,16,32
+    match resolution:
+        case 1:
+            GPIO.output(motor.m0Pin, GPIO.LOW)
+            GPIO.output(motor.m1Pin, GPIO.LOW)
+            GPIO.output(motor.m2Pin, GPIO.LOW)
+        case 2:
+            GPIO.output(motor.m0Pin, GPIO.HIGH)
+            GPIO.output(motor.m1Pin, GPIO.LOW)
+            GPIO.output(motor.m2Pin, GPIO.LOW)
+        case 4:
+            GPIO.output(motor.m0Pin, GPIO.LOW)
+            GPIO.output(motor.m1Pin, GPIO.HIGH)
+            GPIO.output(motor.m2Pin, GPIO.LOW)
+        case 8:
+            GPIO.output(motor.m0Pin, GPIO.HIGH)
+            GPIO.output(motor.m1Pin, GPIO.HIGH)
+            GPIO.output(motor.m2Pin, GPIO.LOW)
+        case 16:
+            GPIO.output(motor.m0Pin, GPIO.LOW)
+            GPIO.output(motor.m1Pin, GPIO.LOW)
+            GPIO.output(motor.m2Pin, GPIO.HIGH)
+        case 32:
+            GPIO.output(motor.m0Pin, GPIO.HIGH)
+            GPIO.output(motor.m1Pin, GPIO.HIGH)
+            GPIO.output(motor.m2Pin, GPIO.HIGH)
+
+
 def HMStoDeg(hms):
-    # Split the input string into hours, minutes, and seconds
-    h, m, s = map(float, hms.split(':'))
+    """
+    Convert a right ascension coordinate in 'hh h mm m' format to degrees.
+
+    Args:
+    hms (str): A string in the format 'hh h mm m', e.g. '03h 47.0m'
+
+    Returns:
+    float: The equivalent angle in degrees.
+    """
+    # Split the input string into components
+    parts = hms.split()
     
-    # Convert to degrees
-    degrees = (h + m/60 + s/3600) * 15
+    # Extract hours and minutes
+    hours = float(parts[0].replace('h', ''))
+    minutes = float(parts[1].replace('m', ''))
+    
+    # Convert hours and minutes to degrees
+    degrees = (hours * 15) + (minutes / 60 * 15)
     
     return degrees
 
 def DMStoDeg(dms):
-    # Split the input string into degrees, minutes, and seconds
-    d, m, s = map(float, dms.split(':'))
+    """
+    Convert a declination in '+ddº mm’' format to decimal degrees.
+
+    Args:
+    dms (str): A string in the format '+ddº mm’', e.g. '+24º 07’'
+
+    Returns:
+    float: The equivalent angle in decimal degrees.
+    """
+    # Split the input string into degrees and minutes
+    parts = dms.split()
     
-    # Convert to decimal degrees
-    if d < 0:
-        degrees = d - (m/60 + s/3600)
-    else:
-        degrees = d + m/60 + s/3600
+    # Extract degrees and minutes
+    degrees = float(parts[0].replace('º', ''))
+    minutes = float(parts[1].replace('’', ''))
     
-    return degrees
+    # Convert minutes to degrees
+    decimal_degrees = degrees + (minutes / 60)
+    
+    return decimal_degrees
+
+def stepTrim(num):
+    return math.floor(num * 10) / 10
+
+def goToThread(motor, delta):
+    deltaMajor = stepTrim(delta) #The largest movement to fullstep
+    deltaMinor = delta - deltaMajor #The small bit to microstep
+
+    #First, make the major delta movement (full steps)
+    setMicrostepping(motor, 1) #Set motor to full steps
+
+    StepsToTake = deltaMajor * 240 #240 steps per output degree
+
+    for i in range (StepsToTake):
+        step(motor, 0.01)
+
+    time.sleep(0.01)
+
+    setMicrostepping(motor, 32) #Set motor to 1/32 microsteps
+    angleRotated = deltaMajor
+    while angleRotated < delta:
+        step(motor, 0.0001)
+        angleRotated += 0.01667 #1 1/32step = 0.01667 deg output
+        #Microstep the rest of the way
+    
+    print("ARRIVED AT DESTINATION")
+    exit #Exit the thread
+    
+
+
+
+def goTo():
+    global currentPos, currentTarget
+    ##First calculate angle difference between the two
+    #currentTarget - currentPos
+    raDelta= currentTarget.RA - currentPos.RA
+    ldDelta= currentTarget.LD - currentPos.LD
+    Thread(target=goToThread(RA, raDelta)).start()
+    Thread(target=goToThread(LD, ldDelta)).start()
+    
 
 
 # Motor stepping function
@@ -194,14 +301,6 @@ def decrement_speed(axis):
         LDcurrentSpeed -= Decimal(0.1)
         return f"LD Running at {LDcurrentSpeed}x sidereal"
 
-@app.route('/catalog')
-def catalog():
-    # Ensure you have a file named catalog.json in the same directory
-    with open('catalog.json', 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    names = [entry['name'] for entry in data]
-    return jsonify(names)
-
 # Route definitions
 @app.route('/', methods=['GET'])
 def index():
@@ -252,6 +351,26 @@ def index():
             status = "Redirecting to home before program update..."
             Thread(target=updateProgram).start()
             return redirect(url_for('index'))
+        
+
+        elif request.args['command'] == 'selectOrion':
+            global currentTarget, currentPos
+            status = "ORION nebula selected"
+            currentTarget = Target(HMStoDeg("03h 47.0m"),DMStoDeg("+24º 07’"),"M42 Orion Nebula")
+            goTo()
+            currentPos=currentTarget
+            #RA 03h 47.0m, LD. +24º 07’
+            return redirect(url_for('index'))
+        
+        elif request.args['command'] == 'goHome':
+            global currentTarget, currentPos
+            status = "HOME position selected"
+            currentTarget = Target(HMStoDeg("00h 00.0m"),DMStoDeg("+00º 00’"),"Home position")
+            goTo()
+            currentPos=currentTarget
+            return redirect(url_for('index'))
+        
+
     
     return render_template('index.html', status=status)
 
