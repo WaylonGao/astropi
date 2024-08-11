@@ -224,9 +224,7 @@ def goTo():
     print(f"currentTarget: {currentTarget.RA},{currentTarget.LD}")
     raDelta= currentTarget.RA - HMStoDeg(currentPos.RA)
     ldDelta= currentTarget.LD - DMStoDeg(currentPos.LD)
-    Thread(target=goToThreadRA(RA, raDelta)).start()
-    Thread(target=goToThreadLD(LD, ldDelta)).start()
-
+    
     raThread = Thread(target=goToThreadRA, args = (RA, raDelta))
     ldThread = Thread(target=goToThreadLD, args = (LD, ldDelta))
     
