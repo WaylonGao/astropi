@@ -171,10 +171,10 @@ def index():
         elif request.args['control'] == 'off':
             status = disable_control(axis)
     if 'sysctrl' in request.args:
-        if request.args['control'] == 'shutdown':
+        if request.args['sysctrl'] == 'shutdown':
             status = "SHUTTING DOWN"
             shutdown()
-        elif request.args['control'] == 'reboot':
+        elif request.args['sysctrl'] == 'reboot':
             status = "REBOOTING"
             reboot()
     elif 'command' in request.args:
