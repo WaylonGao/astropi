@@ -160,8 +160,8 @@ def goToThread(motor, delta):
     setMicrostepping(motor, 1) #Set motor to full steps
 
     StepsToTake = deltaMajor * 240 #240 steps per output degree
-
-    for i in range (StepsToTake):
+    print(StepsToTake)
+    for i in range (int(StepsToTake)):
         step(motor, 0.01)
 
     time.sleep(0.01)
