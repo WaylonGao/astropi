@@ -4,6 +4,7 @@ from threading import Thread, Event
 from decimal import Decimal
 import time
 import os
+import math
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -57,6 +58,28 @@ for d in drivers:
     GPIO.setup(d.m0Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m1Pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.setup(d.m2Pin, GPIO.OUT, initial=GPIO.HIGH)
+
+def HMStoDeg(hms):
+    # Split the input string into hours, minutes, and seconds
+    h, m, s = map(float, hms.split(':'))
+    
+    # Convert to degrees
+    degrees = (h + m/60 + s/3600) * 15
+    
+    return degrees
+
+def DMStoDeg(dms):
+    # Split the input string into degrees, minutes, and seconds
+    d, m, s = map(float, dms.split(':'))
+    
+    # Convert to decimal degrees
+    if d < 0:
+        degrees = d - (m/60 + s/3600)
+    else:
+        degrees = d + m/60 + s/3600
+    
+    return degrees
+
 
 # Motor stepping function
 def step(motor, period):
