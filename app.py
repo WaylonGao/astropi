@@ -170,7 +170,7 @@ def index():
             status = enable_control(axis)
         elif request.args['control'] == 'off':
             status = disable_control(axis)
-    if 'sysctl' in request.args:
+    if 'sysctrl' in request.args:
         if request.args['control'] == 'shutdown':
             status = "SHUTTING DOWN"
             shutdown()
