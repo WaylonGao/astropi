@@ -92,6 +92,16 @@ def reboot():
     disable_control(LD)
     os.system("sudo shutdown -r now")
 
+def restartProgram():
+    disable_control(RA)
+    disable_control(LD)
+    os.system("sudo systemctl stop flaskapp && sleep 1 && sudo systemctl start flaskapp")
+
+def updateProgram():
+    disable_control(RA)
+    disable_control(LD)
+    os.system("sudo systemctl stop flaskapp && git pull && sudo systemctl start flaskapp")
+
 
 # Speed adjustment functions
 def sidereal_1x(axis):
@@ -199,6 +209,16 @@ def index():
             # Redirect to home and schedule reboot
             status = "Redirecting to home before reboot..."
             Thread(target=reboot).start()
+            return redirect(url_for('index'))
+        elif request.args['command'] == 'restartprogram':
+            # Redirect to home and schedule shutdown
+            status = "Redirecting to home before program restart..."
+            Thread(target=restartProgram).start()
+            return redirect(url_for('index'))
+        elif request.args['command'] == 'updateprogram':
+            # Redirect to home and schedule reboot
+            status = "Redirecting to home before program update..."
+            Thread(target=updateProgram).start()
             return redirect(url_for('index'))
     
     return render_template('index.html', status=status)
