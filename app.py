@@ -170,13 +170,7 @@ def index():
             status = enable_control(axis)
         elif request.args['control'] == 'off':
             status = disable_control(axis)
-    if 'sysctrl' in request.args:
-        if request.args['sysctrl'] == 'shutdown':
-            status = "SHUTTING DOWN"
-            shutdown()
-        elif request.args['sysctrl'] == 'reboot':
-            status = "REBOOTING"
-            reboot()
+            
     elif 'command' in request.args:
         if request.args['command'] == 'sidereal1x':
             status = sidereal_1x(axis)
@@ -192,6 +186,12 @@ def index():
             status = increment_speed(axis)
         elif request.args['command'] == 'decrement':
             status = decrement_speed(axis)
+        elif request.args['command'] == 'shutdown':
+            status = "SHUTTING DOWN"
+            shutdown()
+        elif request.args['command'] == 'reboot':
+            status = "REBOOTING"
+            reboot()
     
     return render_template('index.html', status=status)
 
