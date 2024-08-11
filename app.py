@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 from threading import Thread, Event
 from decimal import Decimal
 import time
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -80,6 +81,13 @@ def disable_control(axis):
     elif axis == "LD":
         GPIO.output(LD.enablePin, GPIO.HIGH)
         return "LD DISABLED"
+    
+def shutdown():
+    os.system("sudo shutdown -h now")
+
+def reboot():
+    os.system("sudo shutdown -r now")
+
 
 # Speed adjustment functions
 def sidereal_1x(axis):
@@ -162,6 +170,13 @@ def index():
             status = enable_control(axis)
         elif request.args['control'] == 'off':
             status = disable_control(axis)
+    if 'sysctl' in request.args:
+        if request.args['control'] == 'shutdown':
+            status = "SHUTTING DOWN"
+            shutdown()
+        elif request.args['control'] == 'reboot':
+            status = "REBOOTING"
+            reboot()
     elif 'command' in request.args:
         if request.args['command'] == 'sidereal1x':
             status = sidereal_1x(axis)
