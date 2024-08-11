@@ -52,6 +52,7 @@ LD = MotDriver(7, 1, 10, 12, 9, 16, 20, 21, "Left Declination")
 
 currentTarget = Target("00","00","")
 currentPos = Target("00h 00.0m","+00º 00’","") #zero home position
+homePos = Target("00h 00.0m","+00º 00’","") #zero home position
 
 drivers = [RA, LD]
 
@@ -307,7 +308,7 @@ def decrement_speed(axis):
 # Route definitions
 @app.route('/', methods=['GET'])
 def index():
-    global currentTarget, currentPos
+    global currentTarget, currentPos, homePos
     status = ""
     
     axis = request.args.get('axis')
@@ -374,9 +375,7 @@ def index():
             
             status = "HOME position selected"
 
-            currentTarget.RA = HMStoDeg("00h 00.0m")
-            currentTarget.LD = DMStoDeg("+00º 00’")
-            currentTarget.name = "Home position"
+            currentTarget = homePos
 
             goTo()
             currentPos=currentTarget
