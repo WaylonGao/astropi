@@ -162,7 +162,7 @@ def goToThread(motor, delta):
     StepsToTake = deltaMajor * 240 #240 steps per output degree
     print(StepsToTake)
     for i in range (int(StepsToTake)):
-        step(motor, 0.01)
+        step(motor, 0.1)
 
     time.sleep(0.01)
 
